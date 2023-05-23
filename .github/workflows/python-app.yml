@@ -31,25 +31,23 @@ jobs:
           python mnist_train.py > result.txt
 
       - name: Send results as comment
-        uses: actions/github-script@v5
-        with:
-          github-token: ${{ secrets.CML_TOKEN }}
-          script: |
-            const octokit = require("@octokit/rest")();
-            const owner = process.env.GITHUB_REPOSITORY.split("/")[0];
-            const repo = process.env.GITHUB_REPOSITORY.split("/")[1];
-            const issue_number = process.env.GITHUB_REF.split("/").pop().replace("pull/", "");
-            const result = require("fs").readFileSync("result.txt", "utf8").trim();
+        run: |
+          const { context, GitHub } = require('@actions/github');
+          const owner = context.repo.owner;
+          const repo = context.repo.repo;
+          const issue_number = context.issue.number;
+          const result = require('fs').readFileSync('result.txt', 'utf8').trim();
 
-            const message = `
+          const octokit = new GitHub(process.env.CML_TOKEN);
+          const message = `
             **Test Results**
 
             Accuracy: ${result}
-            `;
+          `;
 
-            await octokit.issues.createComment({
-              owner,
-              repo,
-              issue_number,
-              body: message
-            });
+          await octokit.issues.createComment({
+            owner,
+            repo,
+            issue_number,
+            body: message
+          });
