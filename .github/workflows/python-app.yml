@@ -32,6 +32,8 @@ jobs:
 
       - name: Send results as comment
         run: |
+          gh auth login --with-token <<< "${{ secrets.CML_TOKEN }}"
+          gh issue comment create ${{ github.repository }} --body "$(cat result.txt)"
           const { context, GitHub } = require('@actions/github');
           const owner = context.repo.owner;
           const repo = context.repo.repo;
