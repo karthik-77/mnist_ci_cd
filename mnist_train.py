@@ -3,8 +3,6 @@ from tensorflow.keras.datasets import mnist
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense,Flatten,Conv2D,MaxPooling2D
 from tensorflow.keras import backend as K
-from matplotlib import pyplot as plt
-import altair as alt
 import pandas as pd
 import numpy as np
 
