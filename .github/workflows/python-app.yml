@@ -30,4 +30,24 @@ jobs:
     - name: Test with pytest
       run: |
         python mnist_train.py
+    - name: Send results as comment
+      with:
+          script: |
+            const githubToken = process.env.GITHUB_TOKEN;
+            const fs = require('fs');
+            const result = fs.readFileSync('result.txt', 'utf8').trim();
+
+            const message = `
+            **Test Results**
+
+            Accuracy: ${result}
+            `;
+
+            const octokit = new github.GitHub(githubToken);
+            octokit.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: message
+            });
         
