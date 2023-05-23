@@ -57,6 +57,10 @@ def predict(model,x_test,y_test):
     score = model.evaluate(x_test, y_test, verbose=0)
     print(f'Test loss score: {score[0]}')
     print(f'Test accuracy score:{score[1]}')
+    with open("results.txt",'w') as fp:
+        fp.write(f'Test loss score: {score[0]}')
+        fp.write('\n')
+        fp.write(f'Test accuracy score:{score[1]}')
 
 
 
