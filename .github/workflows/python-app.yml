@@ -29,7 +29,7 @@ jobs:
         pip install -r requirements.txt
     - name: Test with pytest
       run: |
-        python mnist_train.py
+        python mnist_train.py > result.txt
     - name: Send results as comment
       uses: actions/github-script@v4
       with:
